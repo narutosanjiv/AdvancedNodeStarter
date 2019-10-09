@@ -20,18 +20,21 @@ module.exports = app => {
 
   app.get('/api/blogs', requireLogin, async (req, res) => {
 
-    
-    const cachedBlogs = await client.get(req.user.id)
-    if(cachedBlogs){
-      console.log('Serving from Cache')
-      res.send(cachedBlogs)
-      return 
-    } else{
-      console.log('Serving from MONGODB')
-      const blogs = await Blog.find({ _user: req.user.id });
-      client.set(req.user.id, JSON.stringify(blogs))
-      res.send(blogs);
-    }
+    const blogs = await Blog.find({ _user: req.user.id });
+    console.log('blogs')
+    console.log(blogs)
+    res.send(blogs);
+    // const cachedBlogs = await client.get(req.user.id)
+    // if(cachedBlogs){
+    //   console.log('Serving from Cache')
+    //   res.send(cachedBlogs)
+    //   return 
+    // } else{
+    //   console.log('Serving from MONGODB')
+    //   const blogs = await Blog.find({ _user: req.user.id });
+    //   client.set(req.user.id, JSON.stringify(blogs))
+    //   res.send(blogs);
+    // }
 
   });
 
